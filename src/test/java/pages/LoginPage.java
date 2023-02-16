@@ -12,6 +12,9 @@ public class LoginPage {
     By loginBtn = By.id("login-button");
     By loginTitle = By.className("login_logo");
     By botImage = By.className("bot_column");
+    By menuButton = By.id("react-burger-menu-btn");
+    By homePageTitle = By.className("title");
+    By logoutBtn = By.id("logout_sidebar_link");
 
     public LoginPage(WebDriver driver){
         this.driver = driver;
@@ -33,8 +36,12 @@ public class LoginPage {
         driver.findElement(passwordField).sendKeys(strPassword);
     }
 
-    public String getPassword(){
+    public String getPasswordText(){
         return driver.findElement(passwordField).getText();
+    }
+
+    public WebElement getPassword(){
+        return  driver.findElement(passwordField);
     }
 
     public void clearField(WebElement fieldName){
@@ -53,17 +60,19 @@ public class LoginPage {
         return driver.findElement(botImage);
     }
 
-    /**
-     * This POM method will be exposed in test case to login in the application
-     * @param strUsername
-     * @param strPassword
-     * @return
-     */
+    public WebElement getMenuBtn(){
+        return driver.findElement(menuButton);
+    }
 
-    public void loginToPage(String strUsername,String strPassword){
+    public WebElement getHomePageTitle(){
+        return driver.findElement(homePageTitle);
+    }
 
-        this.setUsername(strUsername);
-        this.setPassword(strPassword);
-        this.clickLogin();
+    public WebElement getLoginBtn(){
+        return driver.findElement(loginBtn);
+    }
+
+    public WebElement getLogoutBtn(){
+        return driver.findElement(logoutBtn);
     }
 }
