@@ -3,7 +3,6 @@ package tests;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -13,11 +12,13 @@ import org.testng.annotations.Test;
 import pages.LoginPage;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class LoginTest {
     WebDriver driver;
     LoginPage objLogin;
+
+    String username = "standard_user";
+    String password = "secret_sauce";
 
     @BeforeTest
     public void setup(){
@@ -40,17 +41,18 @@ public class LoginTest {
     }
 
     /*
-     * Test to verify that user is able to input username and password
+     * Test to verify that user is able login successfully
      */
     @Test
-    public void verify_login_credential_input(){
-        String username = "standard_user";
-        String password = "secret_sauce";
+    public void verify_successful_login(){
         objLogin = new LoginPage(driver);
         objLogin.setUsername(username);
-        objLogin.setPassword("secret_sauce");
-        Assert.assertEquals(objLogin.getUsername().getAttribute("value"), username);
-        Assert.assertNotEquals(objLogin.getPassword(), password);
+        objLogin.setPassword(password);
+        objLogin.clickLogin();
+        Assert.assertTrue(objLogin.getHomePageTitle().isDisplayed());
+        Assert.assertTrue(objLogin.getMenuBtn().isDisplayed());
+        objLogin.getMenuBtn().click();
+        objLogin.getLogoutBtn().click();
     }
 
     @AfterTest
