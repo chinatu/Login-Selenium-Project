@@ -33,7 +33,7 @@ public class LoginTest {
     /*
      * Test to verify that all elements on the LoginPage are displayed correctly
      */
-    @Test
+    @Test (priority = 0)
     public void verify_Login_Page_Elements(){
         objLogin = new LoginPage(driver);
         Assert.assertTrue(objLogin.getLoginTitle().isDisplayed());
@@ -43,8 +43,8 @@ public class LoginTest {
     /*
      * Test to verify that user is able login successfully
      */
-    @Test
-    public void verify_successful_login(){
+    @Test (priority = 1)
+    public void verify_successful_login() throws InterruptedException {
         objLogin = new LoginPage(driver);
         objLogin.setUsername(username);
         objLogin.setPassword(password);
@@ -52,7 +52,18 @@ public class LoginTest {
         Assert.assertTrue(objLogin.getHomePageTitle().isDisplayed());
         Assert.assertTrue(objLogin.getMenuBtn().isDisplayed());
         objLogin.getMenuBtn().click();
+        Thread.sleep(2000);
         objLogin.getLogoutBtn().click();
+        Thread.sleep(2000);
+    }
+
+    @Test (priority = 2)
+    public void verify_locked_out_user(){
+        objLogin.setUsername("locked_out_user");
+        objLogin.setPassword(password);
+        objLogin.clickLogin();
+        Assert.assertTrue(objLogin.getErrorMessage().contains("Sorry, this user has been locked out."), "The error message does not contain text");
+
     }
 
     @AfterTest
