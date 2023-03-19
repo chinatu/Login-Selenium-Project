@@ -4,8 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 public class LoginPage {
-    WebDriver driver;
+
+    private WebDriver driver;
 
     By usernameField = By.id("user-name");
     By passwordField = By.id("password");
@@ -16,12 +19,17 @@ public class LoginPage {
     By homePageTitle = By.className("title");
     By logoutBtn = By.id("logout_sidebar_link");
     By errorMessage = By.cssSelector("h3[data-test='error']");
+    By shoppingCartBadge = By.className("shopping_cart_badge");
+    By shoppingCart = By.className("shopping_cart_link");
+    By cartTitle = By.className("title");
+    By addItem = By.className("btn_inventory");
 
     public LoginPage(WebDriver driver){
         this.driver = driver;
     }
 
     public void setUsername(String strUserName){
+        driver.findElement(usernameField).clear();
         driver.findElement(usernameField).sendKeys(strUserName);
     }
 
@@ -34,6 +42,7 @@ public class LoginPage {
     }
 
     public void setPassword(String strPassword){
+        driver.findElement(passwordField).clear();
         driver.findElement(passwordField).sendKeys(strPassword);
     }
 
@@ -81,4 +90,19 @@ public class LoginPage {
         return driver.findElement(errorMessage).getText();
     }
 
+    public List<WebElement> getItemAddBtn(){
+        return driver.findElements(addItem);
+    }
+
+    public WebElement getShoppingCartBadge(){
+        return driver.findElement(shoppingCartBadge);
+    }
+
+    public WebElement getShoppingCart(){
+        return driver.findElement(shoppingCart);
+    }
+
+    public WebElement getCartTitle(){
+        return driver.findElement(cartTitle);
+    }
 }
